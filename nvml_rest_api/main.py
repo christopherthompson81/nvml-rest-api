@@ -139,10 +139,16 @@ def get_gpu_utilization(device_id: int, nvml_service: NVMLService = Depends(get_
 
 
 @app.get("/", tags=["Health"])
-def health_check():
+def health_check(nvml_service: NVMLService = Depends(get_nvml_service)):
     """
     Health check endpoint.
     
     Returns a simple message to confirm the API is running.
     """
-    return {"status": "ok", "message": "NVML REST API is running"}
+    gpu_count = nvml_service.get_device_count()
+    status = "ok" if nvml_service.initialized else "limited"
+    message = f"NVML REST API is running with {gpu_count} GPUs detected"
+    if not nvml_service.initialized:
+        message += " (NVML initialization failed, running in limited mode)"
+    
+    return {"status": status, "message": message, "gpu_count": gpu_count}

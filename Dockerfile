@@ -25,5 +25,5 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["python3", "run.py"]
+# Run the application with fallback for environments without GPUs
+CMD ["sh", "-c", "python3 run.py || echo 'Warning: Failed to initialize NVML. Running without GPU support.'"]

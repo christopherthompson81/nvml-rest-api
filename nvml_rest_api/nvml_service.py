@@ -23,6 +23,8 @@ class NVMLService:
             logger.info("NVML initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize NVML: {e}")
+            logger.warning("This could be because no NVIDIA GPUs are available or the NVIDIA driver is not installed.")
+            logger.warning("The API will run but will report 0 GPUs.")
 
     def __del__(self):
         """Clean up NVML on destruction."""
