@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nvml-rest-api"
+version = "0.1.0"
+description = "REST API for NVIDIA GPU monitoring using NVML"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+dependencies = [
+    "fastapi>=0.95.0",
+    "uvicorn>=0.21.0",
+    "nvidia-ml-py>=11.525.84",
+    "pydantic>=1.10.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3.1",
+    "black>=23.3.0",
+    "isort>=5.12.0",
+]
