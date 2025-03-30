@@ -41,3 +41,4 @@ In mock mode, the API provides simulated GPU data for testing and development.
 - `GET /api/v1/gpus/{device_id}`: Get detailed information about a specific GPU
 - `GET /api/v1/gpus/{device_id}/memory`: Get memory information for a specific GPU
 - `GET /api/v1/gpus/{device_id}/utilization`: Get utilization metrics for a specific GPU
+- `GET /api/v1/status`: Get system status information including mock mode

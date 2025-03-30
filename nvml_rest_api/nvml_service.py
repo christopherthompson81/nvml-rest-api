@@ -19,6 +19,11 @@ except Exception as e:
     logger = logging.getLogger(__name__)
     logger.warning(f"Error importing pynvml: {e}. Running in mock mode.")
 
+# Define constants for mock mode
+MOCK_GPU_MEMORY_TOTAL = 16 * 1024 * 1024 * 1024  # 16 GB in bytes
+MOCK_GPU_MEMORY_FREE = 8 * 1024 * 1024 * 1024    # 8 GB in bytes
+MOCK_GPU_MEMORY_USED = MOCK_GPU_MEMORY_TOTAL - MOCK_GPU_MEMORY_FREE
+
 from nvml_rest_api.models import GPUInfo, MemoryInfo, UtilizationInfo
 
 logger = logging.getLogger(__name__)
@@ -114,11 +119,12 @@ class NVMLService:
     def get_memory_info(self, handle) -> MemoryInfo:
         """Get memory information for a GPU."""
         if self.mock_mode:
-            # Mock 16GB GPU with 8GB free
-            total = 16 * 1024 * 1024 * 1024  # 16 GB in bytes
-            free = 8 * 1024 * 1024 * 1024    # 8 GB in bytes
-            used = total - free
-            return MemoryInfo(total=total, free=free, used=used)
+            # Use the predefined constants for mock memory
+            return MemoryInfo(
+                total=MOCK_GPU_MEMORY_TOTAL,
+                free=MOCK_GPU_MEMORY_FREE,
+                used=MOCK_GPU_MEMORY_USED
+            )
             
         try:
             mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
@@ -255,6 +261,10 @@ class NVMLService:
             persistence_mode=self.get_persistence_mode(handle)
         )
 
+    def is_mock_mode(self) -> bool:
+        """Check if the service is running in mock mode."""
+        return self.mock_mode
+        
     def get_all_gpus(self) -> List[GPUInfo]:
         """Get information about all available GPUs."""
         gpu_count = self.get_device_count()

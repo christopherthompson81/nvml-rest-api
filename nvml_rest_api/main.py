@@ -138,6 +138,19 @@ def get_gpu_utilization(device_id: int, nvml_service: NVMLService = Depends(get_
     return util_info
 
 
+@app.get("/api/v1/status", tags=["System"])
+def get_system_status(nvml_service: NVMLService = Depends(get_nvml_service)):
+    """
+    Get the current system status.
+    
+    Returns information about the NVML service status, including mock mode and GPU count.
+    """
+    return {
+        "initialized": nvml_service.initialized,
+        "mock_mode": nvml_service.is_mock_mode(),
+        "gpu_count": nvml_service.get_device_count()
+    }
+
 @app.get("/", tags=["Health"])
 def health_check(nvml_service: NVMLService = Depends(get_nvml_service)):
     """
@@ -149,7 +162,7 @@ def health_check(nvml_service: NVMLService = Depends(get_nvml_service)):
     status = "ok" if nvml_service.initialized else "limited"
     message = f"NVML REST API is running with {gpu_count} GPUs detected"
     
-    if nvml_service.mock_mode:
+    if nvml_service.is_mock_mode():
         message += " (Running in mock mode with simulated GPU data)"
     elif not nvml_service.initialized:
         message += " (NVML initialization failed, running in limited mode)"
@@ -158,5 +171,5 @@ def health_check(nvml_service: NVMLService = Depends(get_nvml_service)):
         "status": status, 
         "message": message, 
         "gpu_count": gpu_count,
-        "mock_mode": nvml_service.mock_mode
+        "mock_mode": nvml_service.is_mock_mode()
     }
