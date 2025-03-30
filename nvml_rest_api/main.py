@@ -148,7 +148,15 @@ def health_check(nvml_service: NVMLService = Depends(get_nvml_service)):
     gpu_count = nvml_service.get_device_count()
     status = "ok" if nvml_service.initialized else "limited"
     message = f"NVML REST API is running with {gpu_count} GPUs detected"
-    if not nvml_service.initialized:
+    
+    if nvml_service.mock_mode:
+        message += " (Running in mock mode with simulated GPU data)"
+    elif not nvml_service.initialized:
         message += " (NVML initialization failed, running in limited mode)"
     
-    return {"status": status, "message": message, "gpu_count": gpu_count}
+    return {
+        "status": status, 
+        "message": message, 
+        "gpu_count": gpu_count,
+        "mock_mode": nvml_service.mock_mode
+    }

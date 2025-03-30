@@ -8,6 +8,7 @@ A FastAPI-based REST API for monitoring NVIDIA GPUs using the NVIDIA Management 
 - Monitor GPU memory usage
 - Check GPU utilization
 - Query device capabilities
+- Mock mode for development without NVIDIA GPUs
 
 ## Installation
 
@@ -24,6 +25,15 @@ uvicorn nvml_rest_api.main:app --reload
 ```
 
 Access the API documentation at http://localhost:8000/docs
+
+### Mock Mode
+
+The API automatically falls back to mock mode when:
+- NVIDIA GPUs are not available
+- NVML library is not found
+- NVIDIA drivers are not installed
+
+In mock mode, the API provides simulated GPU data for testing and development.
 
 ## API Endpoints
 
