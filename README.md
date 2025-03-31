@@ -16,6 +16,36 @@ A FastAPI-based REST API for monitoring NVIDIA GPUs using the NVIDIA Management 
 pip install -r requirements.txt
 ```
 
+## Docker
+
+You can also run the API using Docker:
+
+### Build the Docker image
+
+```bash
+docker build -t nvml-rest-api .
+```
+
+### Run the container
+
+```bash
+docker run -d --gpus all -p 8000:8000 --name nvml-api nvml-rest-api
+```
+
+The `--gpus all` flag passes through all GPUs to the container. You can also specify individual GPUs if needed.
+
+### View logs
+
+```bash
+docker logs -f nvml-api
+```
+
+### Stop the container
+
+```bash
+docker stop nvml-api
+```
+
 ## Usage
 
 Start the server:
