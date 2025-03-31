@@ -100,7 +100,7 @@ class NVMLService:
             return "NVIDIA Mock GPU"
             
         try:
-            return pynvml.nvmlDeviceGetName(handle).decode('utf-8')
+            return pynvml.nvmlDeviceGetName(handle)
         except Exception as e:
             logger.error(f"Failed to get device name: {e}")
             return "Unknown"
@@ -111,7 +111,7 @@ class NVMLService:
             return "GPU-12345678-9abc-def0-1234-567890abcdef"
             
         try:
-            return pynvml.nvmlDeviceGetUUID(handle).decode('utf-8')
+            return pynvml.nvmlDeviceGetUUID(handle)
         except Exception as e:
             logger.error(f"Failed to get device UUID: {e}")
             return "Unknown"
