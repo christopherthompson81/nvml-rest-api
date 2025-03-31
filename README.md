@@ -51,8 +51,8 @@ response = {
     "gpus": [
         {
             "id": 0,
-            "name": "Unknown",
-            "uuid": "Unknown",
+            "name": "NVIDIA GeForce RTX 3090",
+            "uuid": "GPU-1f1ad567-3b5c-9e6d-ee7c-8f4d4b1c790e",
             "memory": {
                 "total": 25769803776,
                 "free": 18024562688,
